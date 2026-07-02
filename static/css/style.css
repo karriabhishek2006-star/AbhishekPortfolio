@@ -1,0 +1,1663 @@
+/* ==========================================================================
+   Karri Venkata Abhishek Reddy - Premium Portfolio Stylesheet
+   Theme: Luxury, Minimal, Glassmorphic Space Slate
+   Primary Colors: #0F172A (Bg), #1E293B (Cards), #2563EB (Primary Blue)
+   Accent Colors: #38BDF8 (Secondary Sky), #06B6D4 (Cyan Accent)
+   Font Family: Poppins, JetBrains Mono
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Root Variables & Reset
+   -------------------------------------------------------------------------- */
+:root {
+  --bg-color: #0F172A;
+  --bg-darker: #090D1A;
+  --card-bg: rgba(30, 41, 59, 0.8);
+  --card-bg-solid: #1E293B;
+  --primary: #2563EB;
+  --primary-glow: rgba(37, 99, 235, 0.35);
+  --secondary: #38BDF8;
+  --accent: #06B6D4;
+  --accent-glow: rgba(6, 182, 212, 0.25);
+  --text-white: #FFFFFF;
+  --text-muted: #94A3B8;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.6);
+  --font-sans: 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Base resets & behavior */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  background-color: var(--bg-color);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--text-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-darker);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.3);
+  border-radius: 5px;
+  border: 2px solid var(--bg-darker);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Selection highlight */
+::selection {
+  background-color: var(--primary);
+  color: var(--text-white);
+}
+
+/* Utility Typo Classes */
+.font-mono {
+  font-family: var(--font-mono) !important;
+}
+
+.text-secondary {
+  color: var(--text-muted) !important;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--text-white) 30%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-sec {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   2. Page Loader Overlay
+   -------------------------------------------------------------------------- */
+#loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-darker);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+}
+
+.loader-content {
+  text-align: center;
+  position: relative;
+}
+
+.loader-spinner {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgba(6, 182, 212, 0.1);
+  border-top: 2px solid var(--accent);
+  border-right: 2px solid var(--secondary);
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+.loader-logo-text {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #FFF 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.loader-text {
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   3. Scroll Progress Bar
+   -------------------------------------------------------------------------- */
+#scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 2000;
+}
+
+#scroll-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+  box-shadow: 0 0 10px var(--accent-glow);
+  transition: width 0.1s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   4. Video Background Layer
+   -------------------------------------------------------------------------- */
+.video-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  background-color: var(--bg-color);
+}
+
+#bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15; /* Subdued background video */
+  filter: grayscale(20%);
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Dark, ambient radial overlay */
+  background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.4) 0%, rgba(9, 13, 26, 0.95) 100%);
+}
+
+/* Ambient light nodes behind sections */
+.bg-section-glow {
+  position: relative;
+}
+.bg-section-glow::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+  top: 10%;
+  left: -200px;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-section-glow::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
+  bottom: 10%;
+  right: -200px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --------------------------------------------------------------------------
+   5. Glassmorphism Common Boxes
+   -------------------------------------------------------------------------- */
+.glass-box {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  transition: var(--transition-smooth);
+}
+
+/* Glow on hover */
+.glass-box:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   6. Custom Sticky Glass Navbar
+   -------------------------------------------------------------------------- */
+.custom-navbar {
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 18px 0;
+  transition: var(--transition-smooth);
+  z-index: 1000;
+}
+
+/* Scrolled Navbar Style */
+.custom-navbar.navbar-scrolled {
+  padding: 12px 0;
+  background: rgba(9, 13, 26, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.brand-logo {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: var(--text-white);
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(45deg);
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+  transition: var(--transition-bounce);
+}
+
+.brand-logo span {
+  transform: rotate(-45deg);
+  display: inline-block;
+}
+
+.custom-navbar:hover .brand-logo {
+  transform: rotate(405deg);
+}
+
+.brand-text {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 1.1rem;
+  color: var(--text-white);
+  text-transform: uppercase;
+}
+
+.custom-navbar .nav-link {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
+  padding: 8px 16px !important;
+  border-radius: 8px;
+  transition: var(--transition-smooth);
+}
+
+.custom-navbar .nav-link:hover, 
+.custom-navbar .nav-link.active {
+  color: var(--text-white) !important;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Custom Hamburger Menu Toggle */
+.navbar-toggler {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 4px;
+}
+
+.navbar-toggler-icon-custom {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--text-white);
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+.navbar-toggler-icon-custom::before,
+.navbar-toggler-icon-custom::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background-color: var(--text-white);
+  transition: var(--transition-smooth);
+}
+
+.navbar-toggler-icon-custom::before {
+  top: -8px;
+}
+
+.navbar-toggler-icon-custom::after {
+  top: 8px;
+}
+
+/* Hamburguer Animation when Expanded */
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon-custom {
+  background-color: transparent;
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon-custom::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon-custom::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Home Section (Hero)
+   -------------------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  padding: 130px 0 80px 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.welcome-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  color: var(--secondary);
+  padding: 6px 16px;
+  background: rgba(56, 189, 248, 0.06);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+  border-radius: 50px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: 3.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.hero-subtitle {
+  font-size: 1.6rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 992px) {
+  .hero-subtitle {
+    justify-content: flex-start;
+  }
+}
+
+.static-subtitle {
+  color: var(--text-white);
+  margin-right: 8px;
+}
+
+/* Typing cursor */
+.typed-cursor {
+  font-weight: 100;
+  animation: blink 0.7s infinite;
+  color: var(--secondary);
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.hero-desc {
+  max-width: 580px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #94A3B8; /* Slate-400 */
+}
+
+/* Profile Picture Frame & Glows (Tesla/Apple luxury feel) */
+.profile-image-wrapper {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.profile-img {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  position: relative;
+}
+
+.glow-ring {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  z-index: 1;
+  opacity: 0.25;
+  filter: blur(15px);
+  animation: pulse-ring 4s ease-in-out infinite;
+}
+
+.glow-ring-inner {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+  z-index: 1;
+  opacity: 0.4;
+  animation: pulse-ring 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.96); opacity: 0.2; }
+  100% { transform: scale(1.04); opacity: 0.45; }
+}
+
+/* Floating overlay glass label */
+.glass-tag {
+  position: absolute;
+  bottom: 20px;
+  right: -10px;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  color: var(--text-white);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse {
+  animation: icon-pulse 1.5s infinite;
+}
+
+@keyframes icon-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Scroll arrow indicator */
+.scroll-down-arrow {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.scroll-down-arrow a {
+  text-decoration: none;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--transition-smooth);
+}
+
+.scroll-down-arrow a:hover {
+  color: var(--text-white);
+}
+
+.mouse-icon {
+  width: 24px;
+  height: 40px;
+  border: 2px solid var(--text-muted);
+  border-radius: 12px;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.mouse-icon .wheel {
+  width: 4px;
+  height: 8px;
+  background-color: var(--accent);
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: mouse-scroll 1.4s ease-in-out infinite;
+}
+
+@keyframes mouse-scroll {
+  0% { top: 6px; opacity: 1; }
+  100% { top: 22px; opacity: 0; }
+}
+
+.scroll-text {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   8. Section Common Typography
+   -------------------------------------------------------------------------- */
+.section-padding {
+  padding: 100px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--secondary); /* #38BDF8 */
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.section-divider {
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  border-radius: 10px;
+  margin: 12px auto 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   9. About Me Section
+   -------------------------------------------------------------------------- */
+.about-visual-card {
+  position: relative;
+  z-index: 1;
+}
+
+.about-visual-card .glass-box {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glow-card-bg {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: -15px;
+  bottom: -15px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+  filter: blur(25px);
+  z-index: -1;
+  border-radius: 16px;
+}
+
+.quote-icon {
+  width: 36px;
+  height: 36px;
+  color: var(--accent);
+  opacity: 0.4;
+}
+
+.quote-text {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.about-heading {
+  font-size: 1.65rem;
+  font-weight: 600;
+}
+
+.about-text {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 576px) {
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.info-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.col-span-2 {
+  grid-column: span 1;
+}
+
+@media (min-width: 576px) {
+  .col-span-2 {
+    grid-column: span 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Skills Section (Bento Feel Progress Bars)
+   -------------------------------------------------------------------------- */
+.skill-category-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  transition: var(--transition-bounce);
+}
+
+.skill-category-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px var(--glass-shadow);
+}
+
+.card-glow-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  opacity: 0.6;
+}
+
+.skill-category-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 15px;
+}
+
+.category-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.category-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skill-progress-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.skill-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.skill-percentage {
+  font-size: 0.8rem;
+  color: var(--secondary);
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+}
+
+/* Custom glow colors */
+.text-purple { color: #C084FC !important; }
+.text-success { color: #4ADE80 !important; }
+
+/* --------------------------------------------------------------------------
+   11. Education Section (Timeline)
+   -------------------------------------------------------------------------- */
+.timeline-container {
+  position: relative;
+  padding-left: 30px;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 9px;
+  width: 2px;
+  height: calc(100% - 10px);
+  background: linear-gradient(to bottom, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-badge {
+  position: absolute;
+  left: -30px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  border: 2px solid var(--accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  box-shadow: 0 0 10px var(--accent);
+  transition: var(--transition-smooth);
+}
+
+.timeline-badge svg {
+  display: none; /* Just a clean solid pulsing ring on timeline */
+}
+
+.timeline-item:hover .timeline-badge {
+  background-color: var(--accent);
+  transform: scale(1.3);
+  box-shadow: 0 0 15px var(--accent);
+}
+
+.timeline-card {
+  padding: 24px;
+}
+
+.timeline-duration {
+  font-size: 0.75rem;
+  padding: 6px 12px !important;
+  border-radius: 30px;
+  font-weight: 500;
+}
+
+.timeline-institution {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.timeline-degree {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.timeline-desc {
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   12. Achievements (Counters)
+   -------------------------------------------------------------------------- */
+.stat-counter-card {
+  padding: 24px;
+  transition: var(--transition-smooth);
+}
+
+.stat-counter-card:hover {
+  transform: scale(1.05);
+}
+
+.stat-icon-wrapper {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.stat-icon-wrapper svg {
+  width: 22px;
+  height: 22px;
+}
+
+.stat-number {
+  font-size: 2.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFF 40%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   13. Projects Section (Bento Cards)
+   -------------------------------------------------------------------------- */
+.project-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-smooth);
+}
+
+.project-card:hover .project-img {
+  transform: scale(1.1);
+}
+
+.project-overlay-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 30%, rgba(15, 23, 42, 0.8) 100%);
+  z-index: 1;
+}
+
+.project-category {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--glass-border);
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  color: var(--secondary);
+  z-index: 2;
+}
+
+.project-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.project-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.project-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bg-primary-dim { background-color: rgba(37, 99, 235, 0.1) !important; }
+.bg-info-dim { background-color: rgba(56, 189, 248, 0.1) !important; }
+.bg-purple-dim { background-color: rgba(192, 132, 252, 0.1) !important; }
+.bg-success-dim { background-color: rgba(74, 222, 128, 0.1) !important; }
+
+.project-tags .badge {
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   14. Certifications Section
+   -------------------------------------------------------------------------- */
+.certificate-card {
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.cert-hover-icon {
+  opacity: 0;
+  transform: translate(-10px, 10px);
+  transition: var(--transition-smooth);
+}
+
+.certificate-card:hover .cert-hover-icon {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.cert-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.cert-desc {
+  font-size: 0.825rem;
+  line-height: 1.6;
+}
+
+.cert-view-btn {
+  font-size: 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.badge-dim-common {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+.bg-warning-dim { background-color: rgba(250, 204, 21, 0.1) !important; }
+
+/* --------------------------------------------------------------------------
+   15. Resume Section (Interactive Preview)
+   -------------------------------------------------------------------------- */
+.resume-wrapper {
+  overflow: hidden;
+}
+
+.resume-preview-frame {
+  background-color: var(--bg-darker);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow-y: auto;
+  max-height: 550px;
+  padding: 35px;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.resume-inner-doc {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Custom responsive spacing within printed sheets */
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Print Specific layout corrections */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .resume-preview-frame, .resume-preview-frame * {
+    visibility: visible;
+  }
+  .resume-preview-frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    background: white;
+    color: black;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. Contact Section & Custom Forms
+   -------------------------------------------------------------------------- */
+.contact-box {
+  transition: var(--transition-smooth);
+}
+
+.contact-box:hover {
+  transform: translateX(8px);
+}
+
+.contact-icon-box {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-box-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--secondary);
+  margin-bottom: 2px;
+}
+
+.contact-box-desc {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.hover-text-white {
+  transition: var(--transition-smooth);
+}
+.hover-text-white:hover {
+  color: var(--text-white) !important;
+}
+
+/* Custom Dark Inputs */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  font-size: 0.75rem;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-control-custom {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-white);
+  font-size: 0.9rem;
+  transition: var(--transition-smooth);
+}
+
+.form-control-custom:focus {
+  outline: none;
+  background: rgba(15, 23, 42, 0.8);
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* --------------------------------------------------------------------------
+   17. Premium Custom Buttons
+   -------------------------------------------------------------------------- */
+.btn-primary-custom {
+  background: var(--primary);
+  color: var(--text-white);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: none;
+  text-transform: uppercase;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15);
+  transition: var(--transition-smooth);
+}
+
+.btn-primary-custom:hover {
+  background: #1D4ED8; /* blue-700 */
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.25);
+  color: var(--text-white);
+}
+
+.btn-secondary-custom {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-white);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  text-transform: uppercase;
+  transition: var(--transition-smooth);
+}
+
+.btn-secondary-custom:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text-white);
+}
+
+.btn-outline-custom {
+  background: transparent;
+  color: var(--text-white);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-transform: uppercase;
+  transition: var(--transition-smooth);
+}
+
+.btn-outline-custom:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-white);
+}
+
+/* --------------------------------------------------------------------------
+   18. Back to Top Button
+   -------------------------------------------------------------------------- */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 30px;
+  left: 30px; /* Symmetrical with floating chat widget on the right */
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: var(--transition-smooth);
+}
+
+.back-to-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top-btn:hover {
+  background: var(--primary);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--primary-glow);
+}
+
+/* --------------------------------------------------------------------------
+   19. Floating Interactive Chat Assistant
+   -------------------------------------------------------------------------- */
+.floating-chat-widget {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Minimize button toggle trigger */
+.chat-toggle-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  border: none;
+  color: var(--text-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 30px rgba(6, 182, 212, 0.4);
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition-bounce);
+}
+
+.chat-toggle-btn:hover {
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 12px 35px rgba(6, 182, 212, 0.5);
+}
+
+.chat-icon-main {
+  width: 28px;
+  height: 28px;
+}
+
+.bot-icon-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+  filter: blur(8px);
+  opacity: 0.6;
+  z-index: -1;
+  animation: pulse-ring 2.5s infinite;
+}
+
+.chat-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #EF4444;
+  color: var(--text-white);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
+}
+
+/* Chat window box container */
+.chat-box {
+  width: 350px;
+  height: 480px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  animation: slide-in-chat 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slide-in-chat {
+  from { transform: translateY(40px) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.chat-header {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.header-bot-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent);
+  position: relative;
+}
+
+.status-indicator {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #22C55E;
+  border: 2px solid var(--bg-darker);
+}
+
+.chat-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+}
+
+.chat-close-btn:hover {
+  color: var(--text-white);
+}
+
+/* Chat Messages body */
+.chat-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.3);
+}
+
+.chat-message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.825rem;
+  line-height: 1.5;
+  position: relative;
+  animation: fade-up-msg 0.3s ease-out;
+}
+
+@keyframes fade-up-msg {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.chat-message p {
+  margin-bottom: 4px;
+}
+
+.chat-time {
+  display: block;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: right;
+}
+
+/* Bot vs User Bubble */
+.bot-msg {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--text-white);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.user-msg {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--text-white);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+}
+
+/* Suggestions chips list */
+.chat-suggestions {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  background: rgba(9, 13, 26, 0.3);
+}
+
+.chat-suggestions::-webkit-scrollbar {
+  display: none; /* Safari & Chrome */
+}
+
+.chat-suggest-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 30px;
+  padding: 5px 12px;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.chat-suggest-chip:hover {
+  background: rgba(6, 182, 212, 0.1);
+  border-color: var(--accent);
+  color: var(--text-white);
+}
+
+/* Input footer footer */
+.chat-input-custom {
+  flex-grow: 1;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text-white);
+  font-size: 0.825rem;
+  transition: var(--transition-smooth);
+}
+
+.chat-input-custom:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.chat-send-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--text-white);
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px var(--accent-glow);
+  cursor: pointer;
+  transition: var(--transition-bounce);
+}
+
+.chat-send-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px var(--accent-glow);
+}
+
+/* --------------------------------------------------------------------------
+   20. Certificate Modal & Dynamic Lightbox
+   -------------------------------------------------------------------------- */
+.cert-image-frame {
+  max-width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cert-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   21. Scroll & Reveal Transitions (Animations)
+   -------------------------------------------------------------------------- */
+[data-anim] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-anim="fade-left"] {
+  transform: translateX(40px);
+}
+
+[data-anim].reveal {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* --------------------------------------------------------------------------
+   22. Footer & Copyright
+   -------------------------------------------------------------------------- */
+.custom-footer {
+  background-color: var(--bg-darker);
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+@media (min-width: 768px) {
+  .custom-footer .col-md-4:not(:first-child) {
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    padding-left: 2rem;
+  }
+}
+
+.footer-logo {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer-links li a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  transition: var(--transition-smooth);
+}
+
+.footer-links li a:hover {
+  color: var(--text-white);
+}
+
+.social-link {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition-bounce);
+}
+
+.social-link:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-white);
+  transform: translateY(-4px);
+}
+
+/* --------------------------------------------------------------------------
+   23. Responsive Adjustments (Media Queries)
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .hero-subtitle {
+    font-size: 1.35rem;
+  }
+  .section-padding {
+    padding: 70px 0;
+  }
+  .timeline-container::before {
+    left: 9px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 1.85rem;
+  }
+  .custom-navbar {
+    padding: 12px 0;
+  }
+  .profile-img {
+    width: 220px;
+    height: 220px;
+  }
+  .chat-box {
+    width: calc(100vw - 40px);
+    height: 420px;
+  }
+}
